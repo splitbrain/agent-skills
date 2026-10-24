@@ -90,11 +90,12 @@ The most important rule is: do not repeat what the code already says!
 
 ## Doc blocks
 
+A doc block is whatever the language uses for documented API elements — docblock, docstring, JSDoc, KDoc, rustdoc,
+XML doc comment. Follow best practices for formatting. Use the full line length - typically 120 chars. Be sure to
+stay consistent with the existing formatting.
+
 Every class, method, function, constant and field should have a doc block. It contains a summary, an optional body and
 the parameter and return value descriptions.
-
-The format a doc block uses is defined by the used programming language - follow best practices. Use the full line
-length - typically 120 chars.
 
 The summary line says what the thing is or does. Body paragraphs, if any, explain behaviour that is not obvious. A doc
 block should rarely have more than three lines beyond its summary.
@@ -105,6 +106,8 @@ comment above it. Spec and RFC names are facts about behaviour and may stay.
 Avoid using markup (like markdown or HTML) in the doc block.
 
 ## Inline comments
+
+An inline comment is a documentation comment inside a class or method body (typically using `//`, `#` or `/* */`).
 
 Minimal, and only where they structure or explain. Two legitimate jobs:
 
