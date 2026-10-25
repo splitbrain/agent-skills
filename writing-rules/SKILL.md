@@ -57,6 +57,19 @@ Do not add "Answered Questions" or "Decisions" sections. Rework the document to 
 When existing documentation consists of multiple documents, think hard to which document a new fact belongs. Do not
 repeat yourself across multiple documents!
 
+# Plans
+
+When planning new features you will often be asked to write a detailed implementation plan first.
+
+Where existing features are changed, the plan should make clear how the feature currently works and how the new
+implementation will change it and what the goals are. This is the one place where historical contrast is wanted!
+
+Be sure that used time forms always reflect what describes current state (present tense) and planned state
+(future tense).
+
+Apply the rules on Updates as outlined above, when extending a plan.
+
+
 # Code Documentation
 
 While the above general rules always apply, you need to pay additional attention when adding documentation to the
