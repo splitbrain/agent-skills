@@ -5,7 +5,7 @@ description: Review the project's inline comments and doc blocks against the com
 
 # Comment review
 
-Applies to any language. Read the \writing-rules skill. Apply it to the scope.
+Applies to any programming language. Read the `writing-rules` skill. Apply it to the scope.
 
 ## Scope
 

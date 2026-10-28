@@ -16,7 +16,7 @@ Adhere to the KISS-principle: keep it simple stupid.
   ephemeral files.
 - **Prefer prose.** Use bullet lists only when you are actually listing things. Otherwise prefer proper prose
 
-If the `/plain-writing` skill is available, read it first, then apply what is described here on top.
+If the `plain-writing` skill is available, read it first, then apply what is described here on top.
 
 ## Anti-Patterns
 

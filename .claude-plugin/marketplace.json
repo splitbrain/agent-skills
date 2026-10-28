@@ -1,0 +1,22 @@
+{
+  "name": "splitbrain",
+  "owner": {
+    "name": "Andreas Gohr",
+    "email": "andi@splitbrain.org"
+  },
+  "plugins": [
+    {
+      "name": "splitbrain",
+      "source": "./",
+      "description": "Skills for coding agents"
+    },
+    {
+      "name": "plain-writing",
+      "source": {
+        "source": "github",
+        "repo": "docwriter-org/plain-writing-skill"
+      },
+      "description": "A plain-language writing skill for AI agents"
+    }
+  ]
+}

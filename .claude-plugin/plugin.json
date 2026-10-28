@@ -1,0 +1,12 @@
+{
+  "name": "splitbrain",
+  "description": "Skills for coding agents",
+  "author": {
+    "name": "Andreas Gohr",
+    "email": "andi@splitbrain.org"
+  },
+  "repository": "https://github.com/splitbrain/agent-skills",
+  "dependencies": [
+    "plain-writing"
+  ]
+}
