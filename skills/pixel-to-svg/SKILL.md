@@ -11,6 +11,9 @@ artist drew it instead: find the layers and the objects, understand what each ob
 draw it again from primitives. Objects that occur more than once get one canonical form that
 every copy uses.
 
+The user expects an acceptable result in one pass, without having to point out faults. Review
+your own work as strictly as the user would, and fix every fault you find before you report.
+
 ## Principles
 
 - **Do not replicate pixels.** Use pixel measurements only to get coordinates and parameters.
@@ -21,6 +24,15 @@ every copy uses.
   grows out of its trunk, an arrow ends at its target). Geometry follows from the object
   (spokes meet the hub, a reflection mirrors its object, text sits on its baseline, a liquid
   surface is level).
+- **Identify before you draw.** Find out what each object is and what form the artist gave it,
+  and draw that form. Do not draw what such an object usually looks like. A flask can be one
+  glass outline that flares from the neck into the bulb, not a neck set on a circle.
+- **Shapes before shading.** Users judge the objects: their outlines, the number of parts, how
+  the parts join and from which side they are seen. Get these right first. Shading only has to
+  match the style of the source.
+- **Related measurements agree.** Parts of one object share their geometry. A disc inside a
+  gear has the center of the gear, rings of a dial share one center, the ends of a pipe meet
+  their fittings. Fit related parts together and check the relation by numbers.
 - **Low resolution lies.** Anti aliased edges, halos, JPEG blocks, dithering and shading strips
   are not cracks, gaps or extra lines. Blobs of a few pixels can be small figures, sparks,
   splashes or letters. Zoom in at 10x and ask what the artist drew. When the meaning stays
@@ -42,7 +54,8 @@ smaller than a PNG of the same artwork.
 
 ## Kinds of source material
 
-Decide with the user which result is wanted before you start.
+Choose the result from the kind of source. Ask the user only when the source leaves a real
+choice (true pixel art) or when this method does not fit (photos).
 
 - **Flat art with anti aliased edges** (most cartoon, game and icon art): the main case of this
   skill. Each flat color area becomes a shape.
@@ -99,6 +112,20 @@ objects. Look at the whole image at 2x to 3x and at each region at 4x to 6x. Wri
 inventory: the layers, every object, what it is, what it connects to, and which objects repeat.
 With a set of images, survey all of them first, because objects repeat across images.
 
+Then look at each object at 6x to 8x with `gridzoom.sh` and write an object record in the
+project folder (`objects.md`). For each object, write down:
+
+- What it is and from which side it is seen. A round part seen at an angle is an ellipse, and
+  a tube seen at an angle shows its depth as a crescent.
+- Its parts, and for each part whether it is one closed outline or several. One physical piece
+  is one outline, also when it has a narrow and a wide section.
+- Each joint: which part touches which part, where, and which one is in front.
+- Shared geometry with other parts and objects: centers, axes, alignment.
+- The small parts on it: rivets, seams, screws, knobs, collars, clamps, caps.
+- The coordinates of its outline points and centers, read from the grid.
+
+Draw from this record, and correct the record when the source shows that it is wrong.
+
 Ask the user about content that must change (people, logos, copyrighted characters). Agree on
 replacements before you draw them, and show a design image of any new object first.
 
@@ -135,6 +162,8 @@ because a squashed template distorts circles and line widths.
 
 - **Connections.** When objects plug into each other, let the object that receives the other
   one return its connection point and direction, and make the other object end exactly there.
+  At a joint, let the part in front overlap the part behind by a few pixels, so that the
+  background cannot show through.
 - **Curves.** Use `draw.curve` (cubic segments with a direction and handle lengths per node)
   for every smooth line and outline, and fit the handles with `curvefit.py`: along a stroke
   (wires, hair, contour lines) or along the edge of a filled area (blobs, hills, bodies). A loop
@@ -150,23 +179,54 @@ because a squashed template distorts circles and line widths.
 
 ### 4. Review
 
-Go through the image region by region with `compare.sh` at scale 4 or more. Check every item
-and write the result down:
+The review decides whether the result is acceptable. Do all of it before you report anything.
 
-- Connections: every part that should touch another part touches it, without gap or overshoot.
-- Concept: each object reads as what it is; geometric relations hold (shared centers,
-  alignment, symmetry, identical copies).
-- Draw order, and nothing invented or missing.
-- Anti aliasing, halos and compression artifacts were not drawn as features.
-- Node economy: no traced outlines, no leftover or duplicate drawing.
-- For line networks, `linecheck.py IMAGE NET.py OUT.svg`: every listed place is an object edge
-  or removed content, or it is fixed.
+1. Render tiles of the whole image with `tiles.sh` at scale 4 or more, and look at every tile.
+   A region that looks right at 2x can still be wrong.
+2. In each tile, take the objects of the record one by one and compare the source with the SVG:
+   - Outline: the same form and the same number of pieces. One piece in the source is one
+     piece in the SVG, without a line across it. No seam of the source is missing.
+   - Joints: every part that touches another part in the source touches it in the SVG. Look at
+     each joint alone at 6x or more (`compare.sh` on a small box). No background shows through.
+   - View: the same side and angle. Ellipses where the source has ellipses, and the depth of
+     tubes and cylinders where the source shows it.
+   - Geometry: shared centers, alignment, symmetry, identical copies. Measure them.
+   - Parts: nothing invented (a slab, a bar or a ring that the source does not have), nothing
+     missing (knobs, collars, caps, small fittings, seams), and no two parts merged into one.
+   - Draw order at each crossing and overlap.
+   - Anti aliasing, halos and compression artifacts were not drawn as features.
+   - Node economy: no traced outlines, no leftover or duplicate drawing.
+   - For line networks, `linecheck.py IMAGE NET.py OUT.svg`: every listed place is an object
+     edge or removed content, or it is fixed.
+3. Write each fault into a review log (`review.md`): the tile, the object and the fault. Fix
+   all of them.
+4. After each fix, render the whole tile again, not only the fixed part. A fix often shows
+   the next fault nearby, or moves a joint apart.
+5. Do the full pass over all tiles again. Stop only when a complete pass finds no fault in
+   outlines, joints, view, geometry or parts.
 
-### 5. Work with the user
+Differences in shading do not keep the review going. Differences in shapes and objects do.
 
-Show comparison images (source left, SVG right) at 3x, one image for each question. Offer
-options as rendered images when the user must decide on new content. Apply review notes in the
-project files and rebuild every image that uses a changed library object.
+These faults passed weak reviews and the user found them:
+
+- An upper arm that ended above the forearm, with background in the gap.
+- A flask drawn as a neck shape on top of a circle, with a line where they meet, where the
+  source has one glass outline.
+- A goggle drawn from the front, where the source shows it from the side.
+- A light disc in a gear that was not centered on the gear.
+- A dark slab under a flask that the source does not have, and one long bar where the source
+  has a rod with a knob, a collar and a separate clamp arm.
+
+### 5. Report
+
+Report only after a review pass without faults. Show the full comparison image (source left,
+SVG right) at 2x or 3x, and list the differences that remain, such as simplified shading or
+hidden parts that you completed. Do not give an unreviewed draft to the user, and do not ask
+the user to find faults. Ask the user only about decisions that are theirs: content changes,
+and the kind of result when the source leaves a real choice. Offer options as rendered images
+when the user must decide on new content. When the user sends review notes, apply them in the
+project files, rebuild every image that uses a changed library object, and do the full review
+again.
 
 ## Sub-agents
 
@@ -174,7 +234,8 @@ A set of images is a long job. Write a brief for sub-agents in the project folde
 standards, the content decisions, the tools, the file layout, the review checklist and the
 report format. Then give each image fresh agents for its steps, strictly one at a time, for
 example one for the background, one for the objects and one that only reviews and fixes.
-After each agent, look at its previews yourself and send back what is wrong. Typical faults:
+After each agent, do the full review of step 4 yourself and send back what is wrong. Typical
+faults:
 traced shapes with dozens of points, wrong concepts (leaves instead of splashes, a blob instead
 of an animal), invented details, and library changes that break earlier images.
 
@@ -187,5 +248,7 @@ of an animal), invented details, and library changes that break earlier images.
 - Path compaction with relative coordinates must round the absolute coordinates first.
   Otherwise the rounding errors add up and closed shapes do not close.
 - Fixed temporary file names collide when two renders run at the same time.
+- Two fits of related parts that are made one by one give different centers. Fit them together,
+  or fit the main object first and derive the other parts from it.
 - A library change must leave the other images byte-identical unless the change is meant for
   them. Rebuild and compare after every library change.

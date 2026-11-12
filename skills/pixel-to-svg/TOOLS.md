@@ -11,6 +11,7 @@ thin lines.
 |---|---|
 | `node render.mjs IN OUT.png [SCALE] [X Y W H]` | Render an SVG or PNG with Chromium at a scale, optionally cropped to a box. |
 | `compare.sh SOURCE.png SVG X Y W H [SCALE] [OUT]` | Source crop on the left, SVG crop on the right. Default scale 4. |
+| `tiles.sh SOURCE.png SVG [TILE] [SCALE] [OUTDIR]` | Comparison tiles that cover the whole image, with overlap. Default tile 96, scale 4. Use them for the full review. |
 | `gridzoom.sh IMAGE X Y W H [SCALE] [OUT]` | Crop with a labeled 10 px grid, to read coordinates. |
 | `palette.py IMAGE [N]` | The most frequent colors with pixel counts. |
 | `regions.py IMAGE [COLORS] [MIN_AREA]` | Flat color regions with box, area and center, and groups of regions with a similar shape (candidates for repeated objects); writes `/tmp/regions.png`. |
